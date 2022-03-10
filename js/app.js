@@ -5,6 +5,7 @@ const sliderContainer = document.querySelector('#slider');
 const selectedImg = []
 const searchImages = async () => {
 
+    sliderContainer.classList.add('d-none')
     const inputSearch = document.getElementById('search-Input');
     const inputValue = inputSearch.value;
     if (!inputValue) {
@@ -28,7 +29,7 @@ const displayImages = ({
 }) => {
     console.log(hits);
     imagesContainer.style.display = 'block';
-
+    galleryContainer.textContent = ''
     hits.forEach(image => {
         const div = document.createElement('div');
 
@@ -59,16 +60,18 @@ const selectItem = ({target}, imageUrl) => {
 
 let sliderIndex=0;
 const createSlide = ()=>{
+    sliderContainer.textContent=''
     if(selectedImg.length <2){
         alert('Select atleast 2 images')
         return
     }
-
+    sliderContainer.classList.remove('d-none');
+    sliderContainer.classList.add('position-relative')
     const prevNext = document.createElement('div');
-    prevNext.className = "prev-next d-flex w-100 justify-content-between align-items-center";
+    prevNext.className = "prev-next d-flex h-100 w-100 justify-content-between align-items-center position-absolute px-5";
     prevNext.innerHTML = ` 
-    <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
-    <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
+    <span class="prev text-light" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
+    <span class="next text-light" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
     `;
 
     
@@ -78,7 +81,7 @@ const createSlide = ()=>{
   // hide image aria
   imagesContainer.style.display = 'none';
 
-  const duration = document.getElementById('inputDuration').value || 1000;
+  const duration = document.getElementById('inputDuration').value || 10000;
 
   selectedImg.forEach(image =>
     {
@@ -99,13 +102,15 @@ const createSlide = ()=>{
 
 
 const changeSlide = (index) =>{
-    console.log(index)
+    console.log('changeSlide',index)
     const sliderItem = document.querySelectorAll('.slider-item');
     console.log(selectedImg.length);
 
-    if(index>selectedImg.length)sliderIndex =0;
+    if(index>selectedImg.length-1)sliderIndex =0;
     else if(index<0)sliderIndex = selectedImg.length-1;
-
+    else{
+        sliderIndex =index;
+    }
     sliderItem.forEach(imagesItem =>{
         imagesItem.classList.add('d-none');
     })
@@ -114,5 +119,7 @@ const changeSlide = (index) =>{
 }
 
 const changeItem = (index) =>{
-    changeSlide(sliderIndex+index)
+    console.log(index,sliderIndex+index)
+    const change = sliderIndex+index;
+    changeSlide(change)
 }

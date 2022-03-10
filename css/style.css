@@ -7,3 +7,13 @@
     color: rgba(0,0,0,0.6);
     background-blend-mode: overlay;
 }
+
+.prev-next span{
+    font-size: 40px;
+    padding: 10px;
+    border-radius: 50%;
+}
+.prev-next span:hover{
+    
+    background-color: rgba(255, 255, 255, 0.6);
+}
