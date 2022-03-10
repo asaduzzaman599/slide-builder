@@ -20,14 +20,14 @@ const searchImages = async () => {
         displayImages(data);
     } catch (e) {
         alert('Sorry! Something is wrong.')
-        console.log(e)
     }
+
+    inputSearch.value=''
 }
 
 const displayImages = ({
     hits
 }) => {
-    console.log(hits);
     imagesContainer.style.display = 'block';
     galleryContainer.textContent = ''
     hits.forEach(image => {
@@ -48,12 +48,9 @@ const displayImages = ({
 }
 
 const selectItem = ({target}, imageUrl) => {
-    console.log(target)
     if(selectedImg.includes(imageUrl)){
-        console.log('selected')
         return
     }
-    console.log(selectedImg)
     selectedImg.push(imageUrl)
     target.classList.add('selectedImg')
 }
@@ -81,7 +78,13 @@ const createSlide = ()=>{
   // hide image aria
   imagesContainer.style.display = 'none';
 
-  const duration = document.getElementById('inputDuration').value || 10000;
+  const duration = +document.getElementById('inputDuration').value*1000 || 5000;
+  document.getElementById('inputDuration').value = ''
+  if(duration<5000){
+    alert('Less then 5 sec not allowed ')
+    
+    return
+  }
 
   selectedImg.forEach(image =>
     {
@@ -102,10 +105,8 @@ const createSlide = ()=>{
 
 
 const changeSlide = (index) =>{
-    console.log('changeSlide',index)
     const sliderItem = document.querySelectorAll('.slider-item');
-    console.log(selectedImg.length);
-
+    
     if(index>selectedImg.length-1)sliderIndex =0;
     else if(index<0)sliderIndex = selectedImg.length-1;
     else{
@@ -119,7 +120,6 @@ const changeSlide = (index) =>{
 }
 
 const changeItem = (index) =>{
-    console.log(index,sliderIndex+index)
-    const change = sliderIndex+index;
+     const change = sliderIndex+index;
     changeSlide(change)
 }
